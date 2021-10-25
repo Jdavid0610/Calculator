@@ -1,17 +1,26 @@
-import * as React from "react";
-import { Text } from "./Themed";
-import { ButtonType } from "../types";
+import React, { FC, useEffect } from "react";
+import { TouchableHighlight, Vibration } from "react-native";
 import styles from "../constants/Styles";
-import { TouchableOpacity, Vibration } from "react-native";
+import { Text } from "./Themed";
 
-const ButtonT = (props: ButtonType) => {
+interface Props {
+  onPress: (val: string | number) => void;
+  text: number | string;
+}
+
+const ButtonT: FC<Props> = ({ onPress, text }) => {
+  useEffect(() => {
+    Vibration.vibrate(20);
+  }, [onPress]);
+
   return (
-    <TouchableOpacity
-      style={styles.buttonStyle}
-      onPress={() => Vibration.vibrate(10)}
+    <TouchableHighlight
+      style={styles.button}
+      onPress={() => onPress(text)}
+      underlayColor="gray"
     >
-      <Text style={styles.text}>{props.label}</Text>
-    </TouchableOpacity>
+      <Text style={styles.text}>{text}</Text>
+    </TouchableHighlight>
   );
 };
 
